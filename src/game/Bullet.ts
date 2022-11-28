@@ -1,3 +1,4 @@
+import { System } from "detect-collisions";
 import { bullet } from "../constants";
 import { Velocity } from "../types/Game";
 import { Object } from "./Object";
@@ -6,6 +7,7 @@ export class Bullet extends Object {
   private velocity: Velocity;
   constructor(
     ctx: CanvasRenderingContext2D,
+    physics: System,
     w: number,
     h: number,
     x: number,
@@ -13,7 +15,7 @@ export class Bullet extends Object {
     rotation: number,
     velocity: Velocity
   ) {
-    super(ctx, w, h, x, y, rotation);
+    super(ctx, physics, w, h, x, y, rotation);
     this.velocity = velocity;
   }
 

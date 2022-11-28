@@ -1,13 +1,17 @@
+import { System } from "detect-collisions";
+
 export class Object {
   constructor(
     protected ctx: CanvasRenderingContext2D,
+    protected physics: System,
     public w: number,
     public h: number,
-    protected x: number,
-    protected y: number,
+    public x: number,
+    public y: number,
     protected rotation: number
   ) {
     this.ctx = ctx;
+    this.physics = physics;
     this.w = w;
     this.h = h;
     this.x = x;
