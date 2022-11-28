@@ -66,7 +66,7 @@ export default {
     );
 
     const crates: Crate[] = [];
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 20; i++) {
       crates.push(
         new Crate(
           ctx,
@@ -83,17 +83,23 @@ export default {
 
     const handleCollisions = () => {
       physics.checkAll(({ a, b, overlapV }) => {
-        if (a.type === "Box" || a === player.Circle) {
-          player.x = a.pos.x - overlapV.x;
-          player.y = a.pos.y - overlapV.y;
+        if (
+          a === player.circle ||
+          crates.map((crate) => crate.box).includes(a)
+        ) {
+          a.x = a.pos.x - overlapV.x;
+          a.y = a.pos.y - overlapV.y;
         }
 
-        if (b === player.Circle && a.type === "Box") {
-          crates[0].x = a.pos.x - overlapV.x;
-          crates[0].y = a.pos.y - overlapV.y;
+        if (
+          b === player.circle ||
+          crates.map((crate) => crate.box).includes(b)
+        ) {
+          b.x = b.pos.x + overlapV.x;
+          b.y = b.pos.y + overlapV.y;
         }
 
-        if (a === player.Circle) {
+        if (a === player.circle) {
           player.velocity.x *= 0.95;
           player.velocity.y *= 0.95;
         }
@@ -123,20 +129,20 @@ export default {
       let x, y;
       let degreeMultiplier = 1;
 
-      if (player.x < mouse.x && player.y < mouse.y) {
-        x = mouse.x - player.x;
-        y = mouse.y - player.y;
-      } else if (player.x > mouse.x && player.y < mouse.y) {
-        x = player.x - mouse.x;
-        y = mouse.y - player.y;
+      if (player.circle.x < mouse.x && player.circle.y < mouse.y) {
+        x = mouse.x - player.circle.x;
+        y = mouse.y - player.circle.y;
+      } else if (player.circle.x > mouse.x && player.circle.y < mouse.y) {
+        x = player.circle.x - mouse.x;
+        y = mouse.y - player.circle.y;
         degreeMultiplier = 2;
-      } else if (player.x > mouse.x && player.y > mouse.y) {
-        x = player.x - mouse.x;
-        y = player.y - mouse.y;
+      } else if (player.circle.x > mouse.x && player.circle.y > mouse.y) {
+        x = player.circle.x - mouse.x;
+        y = player.circle.y - mouse.y;
         degreeMultiplier = 3;
       } else {
-        x = mouse.x - player.x;
-        y = player.y - mouse.y;
+        x = mouse.x - player.circle.x;
+        y = player.circle.y - mouse.y;
         degreeMultiplier = 4;
       }
 
@@ -175,10 +181,10 @@ export default {
           physics,
           bullet.w,
           bullet.h,
-          player.x - bullet.w / 2,
-          player.y - bullet.h / 2,
+          player.circle.x - bullet.w / 2,
+          player.circle.y - bullet.h / 2,
           player.Rotation,
-          calculateVelocity(player.x, player.y, mouse.x, mouse.y)
+          calculateVelocity(player.circle.x, player.circle.y, mouse.x, mouse.y)
         )
       );
     }

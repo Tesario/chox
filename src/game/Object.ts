@@ -4,10 +4,10 @@ export class Object {
   constructor(
     protected ctx: CanvasRenderingContext2D,
     protected physics: System,
-    public w: number,
-    public h: number,
-    public x: number,
-    public y: number,
+    protected w: number,
+    protected h: number,
+    protected x: number,
+    protected y: number,
     protected rotation: number
   ) {
     this.ctx = ctx;

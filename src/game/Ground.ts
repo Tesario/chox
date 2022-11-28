@@ -4,10 +4,16 @@ import { Object } from "./Object";
 
 export class Ground extends Object {
   private image;
-  bound1: Line = new Line({ x: 0, y: 0 }, { x: this.w, y: 0 });
-  bound2: Line = new Line({ x: this.w, y: 0 }, { x: this.w, y: this.h });
-  bound3: Line = new Line({ x: this.w, y: this.h }, { x: 0, y: this.h });
-  bound4: Line = new Line({ x: 0, y: this.h }, { x: 0, y: 0 });
+  private bound1: Line = new Line({ x: 0, y: 0 }, { x: this.w, y: 0 });
+  private bound2: Line = new Line(
+    { x: this.w, y: 0 },
+    { x: this.w, y: this.h }
+  );
+  private bound3: Line = new Line(
+    { x: this.w, y: this.h },
+    { x: 0, y: this.h }
+  );
+  private bound4: Line = new Line({ x: 0, y: this.h }, { x: 0, y: 0 });
   constructor(
     ctx: CanvasRenderingContext2D,
     physics: System,
@@ -28,6 +34,10 @@ export class Ground extends Object {
 
   update() {
     this.draw();
+  }
+
+  get Bounds(): Line[] {
+    return [this.bound1, this.bound2, this.bound3, this.bound4];
   }
 
   draw(): void {
