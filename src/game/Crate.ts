@@ -4,7 +4,7 @@ import { Object } from "./Object";
 
 export class Crate extends Object {
   private image;
-  private box: Box;
+  public box: Box;
   constructor(
     ctx: CanvasRenderingContext2D,
     physics: System,
@@ -23,8 +23,8 @@ export class Crate extends Object {
 
   draw(): void {
     super.draw();
-    this.ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
-    this.box.setPosition(this.x, this.y);
+    this.ctx.drawImage(this.image, this.box.x, this.box.y, this.w, this.h);
+    this.box.setPosition(this.box.x, this.box.y);
     this.ctx.restore();
   }
 }

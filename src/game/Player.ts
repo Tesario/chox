@@ -6,14 +6,14 @@ import { Object } from "./Object";
 
 export class Player extends Object {
   private image;
-  private circle: Circle;
+  public circle: Circle;
   constructor(
     ctx: CanvasRenderingContext2D,
     physics: System,
     w: number,
     h: number,
-    public x: number,
-    public y: number,
+    x: number,
+    y: number,
     rotation: number,
     public velocity: Velocity,
     image: CanvasImageSource
@@ -32,10 +32,6 @@ export class Player extends Object {
     this.rotation = value;
   }
 
-  get Circle(): Circle {
-    return this.circle;
-  }
-
   changeVelocity(direction: "x" | "y", speed: number) {
     this.velocity[direction] += speed;
     if (Math.abs(this.velocity[direction]) > player.maxSpeed) {
@@ -45,8 +41,9 @@ export class Player extends Object {
   }
 
   update() {
-    this.x += this.velocity.x;
-    this.y += this.velocity.y;
+    this.circle.x += this.velocity.x;
+    this.circle.y += this.velocity.y;
+
     this.draw();
 
     if (this.velocity.x > 0) {
@@ -76,18 +73,19 @@ export class Player extends Object {
 
   draw(): void {
     this.ctx.save();
-    this.ctx.translate(this.x, this.y);
+    this.ctx.translate(this.circle.x, this.circle.y);
     this.ctx.rotate(this.rotation);
-    this.ctx.translate(-this.x, -this.y);
+    this.ctx.translate(-this.circle.x, -this.circle.y);
 
     this.ctx.drawImage(
       this.image,
-      this.x - this.w / 2 + 22,
-      this.y - this.h / 2,
+      this.circle.x - this.w / 2 + 22,
+      this.circle.y - this.h / 2,
       this.w,
       this.h
     );
-    this.circle.setPosition(this.x, this.y);
+
+    this.circle.setPosition(this.circle.x, this.circle.y);
     this.ctx.restore();
   }
 }
