@@ -44,8 +44,6 @@ export class Player extends Object {
     this.circle.x += this.velocity.x;
     this.circle.y += this.velocity.y;
 
-    this.draw();
-
     if (this.velocity.x > 0) {
       this.velocity.x -= player.slow;
       if (this.velocity.x < 0) {
